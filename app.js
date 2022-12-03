@@ -34,8 +34,12 @@ app.use(limiter);
 
 // Mongo DB Database Connection
 let URI =
-  "mongodb+srv://<username>:<password>@cluster0.7uslu.mongodb.net/todo?retryWrites=true&w=majority";
-let OPTION = { user: "testuser7777", pass: "testuser7777", autoIndex: true };
+  "mongodb+srv://<username>:<password>@cluster0.1rljf5u.mongodb.net/salesolu_db?retryWrites=true&w=majority";
+let OPTION = {
+  user: "salesolution",
+  pass: "tPG3wMETcKZkqDEK",
+  autoIndex: true,
+};
 mongoose.connect(URI, OPTION, (error) => {
   console.log("Connection Success");
   console.log(error);
