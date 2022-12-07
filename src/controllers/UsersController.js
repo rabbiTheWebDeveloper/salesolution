@@ -6,9 +6,11 @@ const jwt = require("jsonwebtoken");
 // Registration
 exports.registration = (req, res) => {
   let reqBody = req.body;
+  console.log(reqBody);
   UsersModel.create(reqBody, (err, data) => {
+    console.log(err);
     if (err) {
-      res.status(200).json({ status: "fail", data: err });
+      res.status(404).json({ status: "fail", data: err });
     } else {
       res.status(200).json({ status: "success", data: data });
     }
@@ -19,15 +21,20 @@ exports.login = (req, res) => {
   let reqBody = req.body;
   UsersModel.aggregate(
     [
-      { $match: reqBody },
+      {
+        $match: {
+          email: reqBody.email,
+          password: reqBody.password,
+        },
+      },
       {
         $project: {
           _id: 0,
+          name: 1,
+          shopName: 1,
+          domainName: 1,
           email: 1,
-          firstName: 1,
-          lastName: 1,
-          mobile: 1,
-          photo: 1,
+          phone: 1,
         },
       },
     ],

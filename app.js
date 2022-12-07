@@ -34,12 +34,15 @@ app.use(limiter);
 
 // Mongo DB Database Connection
 let URI =
-  "mongodb+srv://<username>:<password>@cluster0.1rljf5u.mongodb.net/salesolu_db?retryWrites=true&w=majority";
+  "mongodb+srv://admin:rmGLdBdP6IGzISQO@cluster0.1rljf5u.mongodb.net/salesolu_db?retryWrites=true&w=majority";
 let OPTION = {
-  user: "salesolution",
-  pass: "tPG3wMETcKZkqDEK",
+  user: "",
+  pass: "",
   autoIndex: true,
 };
+// mongodb+srv://admin:rmGLdBdP6IGzISQO@cluster0.1rljf5u.mongodb.net/test
+// user: "salesolution",
+//   pass: "tPG3wMETcKZkqDEK",
 mongoose.connect(URI, OPTION, (error) => {
   console.log("Connection Success");
   console.log(error);
