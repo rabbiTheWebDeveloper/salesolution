@@ -7,8 +7,16 @@ const DataSchema = mongoose.Schema(
     email: { type: String, unique: true },
     phone: { type: String, unique: true },
     password: { type: String },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
   },
-  { versionKey: false }
+  {
+    timestamps: true,
+    versionKey: false,
+  }
 );
 const UserModel = mongoose.model("user", DataSchema);
 module.exports = UserModel;
