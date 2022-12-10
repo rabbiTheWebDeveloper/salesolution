@@ -34,7 +34,14 @@ exports.login = (req, res) => {
           shopName: 1,
           domainName: 1,
           email: 1,
+<<<<<<< Updated upstream
           phone: 1,
+=======
+          shopName: 1,
+          domainName: 1,
+          mobile: 1,
+          name: 1,
+>>>>>>> Stashed changes
         },
       },
     ],
