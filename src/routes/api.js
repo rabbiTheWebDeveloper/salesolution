@@ -12,9 +12,6 @@ const router = express.Router();
 
 router.post("/registration", UsersController.registration);
 router.post("/login", UsersController.login);
-<<<<<<< Updated upstream
-=======
 // router.post("/login", UsersController.login);
->>>>>>> Stashed changes
 
 module.exports = router;

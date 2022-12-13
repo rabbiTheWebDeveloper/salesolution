@@ -1,20 +1,57 @@
 const UsersModel = require("../models/UsersModel");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const { validationResult } = require("express-validator");
+const errorFormater = require("../utility/errorFormater");
 // const OTPModel = require("../models/OTPModel");
 // const SendEmailUtility = require("../utility/SendEmailUtility");
 
 // Registration
-exports.registration = (req, res) => {
-  let reqBody = req.body;
+exports.registration = async (req, res) => {
+  const reqBody = req.body;
+  let { name, shopName, domainName, email, phone, password } = req.body;
   console.log(reqBody);
-  UsersModel.create(reqBody, (err, data) => {
-    console.log(err);
-    if (err) {
-      res.status(404).json({ status: "fail", data: err });
-    } else {
-      res.status(200).json({ status: "success", data: data });
+  try {
+    const errors = validationResult(req).formatWith(errorFormater);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        error: errors.mapped(),
+        value: { name, shopName, domainName, email, phone, password },
+      });
     }
-  });
+    const newUser = await UsersModel.create({
+      name,
+      shopName,
+      domainName,
+      phone,
+      email,
+      password: await bcrypt.hash(password, 10),
+    });
+
+    const token = jwt.sign(
+      {
+        id: newUser._id,
+        name: newUser.name,
+        password: newUser.password,
+      },
+      "SecretKey123456789",
+      { expiresIn: "7 d" }
+    );
+    return res
+      .status(201)
+      .json({ msg: "Your account successfully created", newUser, token });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+  // UsersModel.create(reqBody, (err, data) => {
+  //   console.log(err);
+  //   if (err) {
+  //     res.status(404).json({ status: "fail", data: err });
+  //   } else {
+  //     res.status(200).json({ status: "success", data: data });
+  //   }
+  // });
 };
 
 exports.login = (req, res) => {
@@ -34,14 +71,7 @@ exports.login = (req, res) => {
           shopName: 1,
           domainName: 1,
           email: 1,
-<<<<<<< Updated upstream
-          phone: 1,
-=======
-          shopName: 1,
-          domainName: 1,
           mobile: 1,
-          name: 1,
->>>>>>> Stashed changes
         },
       },
     ],
